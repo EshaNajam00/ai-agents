@@ -1,0 +1,19 @@
+{
+  "appId": "app.gridzy.game",
+  "appName": "Gridzy",
+  "webDir": "../web/dist",
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "SystemBars": {
+      "style": "DARK"
+    },
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "backgroundColor": "#3b2fb8",
+      "showSpinner": false,
+      "androidScaleType": "CENTER_CROP"
+    }
+  }
+}

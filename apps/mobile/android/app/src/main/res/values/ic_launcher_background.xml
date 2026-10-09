@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#5A4BE0</color>
+    <!-- Behind the splash icon and the game while it loads; matches the game background. -->
+    <color name="gridzy_background">#3B2FB8</color>
+</resources>

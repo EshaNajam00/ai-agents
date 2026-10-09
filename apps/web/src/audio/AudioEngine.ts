@@ -18,6 +18,7 @@ export class AudioEngine {
   private music: MusicPlayer | null = null;
   private sfxEnabled = true;
   private musicEnabled = true;
+  private appInBackground = false;
 
   constructor() {
     document.addEventListener('visibilitychange', this.onVisibilityChange);
@@ -40,7 +41,7 @@ export class AudioEngine {
       this.music = new MusicPlayer(ctx, musicBus);
       this.ctx = ctx;
     }
-    if (this.ctx.state === 'suspended' && !document.hidden) void this.ctx.resume();
+    if (this.ctx.state === 'suspended' && !this.isHidden()) void this.ctx.resume();
     this.syncMusic();
   };
 
@@ -167,16 +168,26 @@ export class AudioEngine {
     return [this.ctx, this.sfxBus, this.ctx.currentTime];
   }
 
+  /** Called by the native app shell when the app is minimized or reopened. */
+  setAppInBackground(background: boolean): void {
+    this.appInBackground = background;
+    this.onVisibilityChange();
+  }
+
+  private isHidden(): boolean {
+    return document.hidden || this.appInBackground;
+  }
+
   private syncMusic(): void {
     if (!this.music) return;
-    if (this.musicEnabled && !document.hidden) this.music.start();
+    if (this.musicEnabled && !this.isHidden()) this.music.start();
     else this.music.stop();
   }
 
   /** Go silent when the tab or app is in the background. */
   private onVisibilityChange = (): void => {
     if (!this.ctx) return;
-    if (document.hidden) {
+    if (this.isHidden()) {
       this.music?.stop();
       void this.ctx.suspend();
     } else {

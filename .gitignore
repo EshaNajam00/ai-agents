@@ -7,3 +7,7 @@ coverage/
 !.env.example
 .DS_Store
 .vite/
+
+# Android build outputs and local Gradle downloads
+apk/
+.gradle-home/
