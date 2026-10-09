@@ -46,6 +46,18 @@ you set it.
 
 The finished APK is copied to `apk/Gridzy-<version>-debug.apk`.
 
+### Releasing a new Android version
+
+1. Raise `versionCode` (e.g. `10000` → `10100`) and `versionName` (e.g. `1.0.0` → `1.1.0`) in
+   `apps/mobile/android/app/build.gradle`, and `APP_VERSION` in `apps/web/src/version.ts`.
+2. `npm run apk:release` builds a signed APK at `apk/Gridzy.apk` (plus a versioned copy).
+   The signing key is read from `../Gridzy-keys/keystore.properties`, **outside** this repository,
+   or from the file named by `GRIDZY_SIGNING_PROPERTIES`. Never commit the key or its passwords.
+3. Commit, tag and push: `git tag v1.1.0` then `git push --follow-tags`.
+4. On GitHub, create a Release for the tag and upload `apk/Gridzy.apk`. Keep the file name
+   `Gridzy.apk`: the website's download button always points to
+   https://github.com/EshaNajam00/ai-agents/releases/latest/download/Gridzy.apk
+
 ## Project layout
 
 ```

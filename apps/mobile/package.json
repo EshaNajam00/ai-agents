@@ -1,13 +1,14 @@
 {
   "name": "@gridzy/mobile",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "description": "Capacitor shell that packages the Gridzy web game as an Android app.",
   "scripts": {
     "assets": "node scripts/generate-assets.mjs",
     "sync": "npm run build --prefix ../web && cap sync android",
-    "apk": "npm run sync && node scripts/build-apk.mjs"
+    "apk": "npm run sync && node scripts/build-apk.mjs",
+    "apk:release": "npm run sync && node scripts/build-apk.mjs --release"
   },
   "dependencies": {
     "@capacitor/android": "8.5.3",

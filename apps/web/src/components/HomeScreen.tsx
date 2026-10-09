@@ -1,16 +1,26 @@
+import { ANDROID_APK_URL } from '../links';
 import { Crown } from './Crown';
-import { GearIcon } from './icons';
+import { DownloadIcon, GearIcon } from './icons';
 import { Logo } from './Logo';
 
 interface HomeScreenProps {
   best: number;
   canContinue: boolean;
+  /** Offer the Android app download (only on the website, not inside the app). */
+  showAppDownload: boolean;
   onPlay: () => void;
   onNewGame: () => void;
   onSettings: () => void;
 }
 
-export function HomeScreen({ best, canContinue, onPlay, onNewGame, onSettings }: HomeScreenProps) {
+export function HomeScreen({
+  best,
+  canContinue,
+  showAppDownload,
+  onPlay,
+  onNewGame,
+  onSettings,
+}: HomeScreenProps) {
   return (
     <section className="home" aria-label="Home">
       <div className="home-top">
@@ -36,6 +46,12 @@ export function HomeScreen({ best, canContinue, onPlay, onNewGame, onSettings }:
           <button type="button" className="text-button" onClick={onNewGame}>
             New game
           </button>
+        )}
+        {showAppDownload && (
+          <a className="download-link" href={ANDROID_APK_URL} rel="noopener noreferrer">
+            <DownloadIcon />
+            Download Android App
+          </a>
         )}
       </div>
     </section>

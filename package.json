@@ -23,7 +23,8 @@
     "check": "npm run typecheck && npm run lint && npm run test",
     "android:assets": "npm run assets --workspace @gridzy/mobile",
     "android:sync": "npm run sync --workspace @gridzy/mobile",
-    "apk": "npm run apk --workspace @gridzy/mobile"
+    "apk": "npm run apk --workspace @gridzy/mobile",
+    "apk:release": "npm run apk:release --workspace @gridzy/mobile"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

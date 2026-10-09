@@ -546,3 +546,26 @@ button {
     animation: none;
   }
 }
+
+.download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.download-link:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.download-link:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}

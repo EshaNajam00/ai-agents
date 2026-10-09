@@ -11,6 +11,7 @@ import type { FeedbackActions } from './game/feedback';
 import type { GameStore } from './game/GameStore';
 import type { Settings, SettingsStore } from './game/settings';
 import { useSettings } from './hooks';
+import { isNativeApp } from './platform/native';
 
 /** Lets the gray-out animation finish before the game-over popup appears. */
 const GAME_OVER_DELAY_MS = 1200;
@@ -95,6 +96,7 @@ export function App({ store, settings, feedback }: AppProps) {
         <HomeScreen
           best={game.best}
           canContinue={store.hasProgress()}
+          showAppDownload={!isNativeApp}
           onPlay={tap(startPlaying)}
           onNewGame={tap(newGame)}
           onSettings={tap(() => setSettingsOpen(true))}

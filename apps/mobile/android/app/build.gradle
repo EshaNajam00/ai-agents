@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
 
+// Release signing. The keystore and its passwords live OUTSIDE the repository; the
+// build script passes their location with -PgridzySigningProperties=<file>.
+def signingProps = new Properties()
+def signingPropsPath = project.findProperty('gridzySigningProperties')
+if (signingPropsPath && file(signingPropsPath).exists()) {
+    file(signingPropsPath).withInputStream { signingProps.load(it) }
+}
+def hasReleaseKey = signingProps.getProperty('storeFile') != null
+
 android {
     namespace = "app.gridzy.game"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -7,8 +16,9 @@ android {
         applicationId "app.gridzy.game"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "0.3.0"
+        // versionCode must grow with every release: major * 10000 + minor * 100 + patch.
+        versionCode 10000
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -16,8 +26,22 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        if (hasReleaseKey) {
+            release {
+                storeFile file(signingProps.getProperty('storeFile'))
+                storePassword signingProps.getProperty('storePassword')
+                keyAlias signingProps.getProperty('keyAlias')
+                keyPassword signingProps.getProperty('keyPassword')
+            }
+        }
+    }
     buildTypes {
         release {
+            // Without the key, release builds come out unsigned (and won't install).
+            if (hasReleaseKey) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
