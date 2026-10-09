@@ -1,0 +1,13 @@
+{
+  "name": "@gridzy/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure, platform-independent game rules for Gridzy.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  }
+}
