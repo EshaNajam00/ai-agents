@@ -7,6 +7,12 @@ import { BLOCK_HEX, BOARD_HEX, shade } from './palette';
 export interface BlockTextures {
   readonly blocks: Record<BlockColor, Texture>;
   readonly empty: Texture;
+  /** White block silhouette, for the flash before a line pops. */
+  readonly flash: Texture;
+  /** Particle textures, all white so they can be tinted. */
+  readonly shard: Texture;
+  readonly spark: Texture;
+  readonly confetti: Texture;
   destroy(): void;
 }
 
@@ -50,27 +56,74 @@ function drawEmpty(g: Graphics, size: number): void {
   );
 }
 
+/** Four-pointed twinkle star filling a `size` × `size` square. */
+function drawSpark(g: Graphics, size: number): void {
+  const c = size / 2;
+  const inner = size * 0.09;
+  g.poly([
+    c,
+    0,
+    c + inner,
+    c - inner,
+    size,
+    c,
+    c + inner,
+    c + inner,
+    c,
+    size,
+    c - inner,
+    c + inner,
+    0,
+    c,
+    c - inner,
+    c - inner,
+  ]).fill(0xffffff);
+  g.circle(c, c, size * 0.12).fill(0xffffff);
+}
+
 export function createBlockTextures(renderer: Renderer, size: number): BlockTextures {
-  const frame = new Rectangle(0, 0, size, size);
-  const bake = (draw: (g: Graphics) => void): Texture => {
+  const bake = (w: number, h: number, draw: (g: Graphics) => void): Texture => {
     const g = new Graphics();
     draw(g);
-    const texture = renderer.generateTexture({ target: g, frame, antialias: true });
+    const texture = renderer.generateTexture({
+      target: g,
+      frame: new Rectangle(0, 0, w, h),
+      antialias: true,
+    });
     g.destroy();
     return texture;
   };
 
   const blocks = Object.fromEntries(
-    BLOCK_COLORS.map((c) => [c, bake((g) => drawBlock(g, size, BLOCK_HEX[c]))]),
+    BLOCK_COLORS.map((c) => [c, bake(size, size, (g) => drawBlock(g, size, BLOCK_HEX[c]))]),
   ) as Record<BlockColor, Texture>;
-  const empty = bake((g) => drawEmpty(g, size));
+  const empty = bake(size, size, (g) => drawEmpty(g, size));
+  const m = size * 0.035;
+  const flash = bake(size, size, (g) =>
+    g.roundRect(m, m, size - m * 2, size - m * 2, size * 0.08).fill(0xffffff),
+  );
+  const shardSize = Math.max(4, Math.round(size * 0.26));
+  const shard = bake(shardSize, shardSize, (g) =>
+    g.roundRect(0, 0, shardSize, shardSize, shardSize * 0.2).fill(0xffffff),
+  );
+  const sparkSize = Math.max(8, Math.round(size * 0.6));
+  const spark = bake(sparkSize, sparkSize, (g) => drawSpark(g, sparkSize));
+  const confetti = bake(
+    Math.max(6, Math.round(size * 0.22)),
+    Math.max(3, Math.round(size * 0.12)),
+    (g) => g.rect(0, 0, size, size).fill(0xffffff),
+  );
 
+  const all = [...Object.values(blocks), empty, flash, shard, spark, confetti];
   return {
     blocks,
     empty,
+    flash,
+    shard,
+    spark,
+    confetti,
     destroy() {
-      for (const t of Object.values(blocks)) t.destroy(true);
-      empty.destroy(true);
+      for (const t of all) t.destroy(true);
     },
   };
 }
