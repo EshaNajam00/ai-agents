@@ -11,6 +11,7 @@
   },
   "scripts": {
     "dev": "npm run dev --workspace @gridzy/web",
+    "dev:phone": "npm run dev:phone --workspace @gridzy/web",
     "build": "npm run build --workspace @gridzy/web",
     "preview": "npm run preview --workspace @gridzy/web",
     "test": "vitest run",
