@@ -27,9 +27,24 @@ npm run dev      # starts the game at http://localhost:5173
 | `npm run build`     | Production build into `apps/web/dist`              |
 | `npm run preview`   | Serve the production build locally                 |
 
+## Android app
+
+Requirements: Android Studio installed (it provides Java 21), and `ANDROID_HOME` pointing to the
+Android SDK. Gradle downloads go to `.gradle-home/` next to the project, or to `GRADLE_USER_HOME` if
+you set it.
+
+| Command                  | What it does                                                     |
+| ------------------------ | ---------------------------------------------------------------- |
+| `npm run apk`            | Build the web game, copy it into Android, and create a debug APK |
+| `npm run android:sync`   | Only rebuild the web game and copy it into the Android project   |
+| `npm run android:assets` | Regenerate the launcher icons and splash images                  |
+
+The finished APK is copied to `apk/Gridzy-<version>-debug.apk`.
+
 ## Project layout
 
 ```
 packages/core   Game rules: board, pieces, scoring, combos, generator (pure TypeScript + tests)
 apps/web        Browser game: React (screens) + PixiJS (board, pieces, animation)
+apps/mobile     Capacitor shell that packages apps/web as the Android app
 ```

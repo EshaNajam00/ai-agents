@@ -14,7 +14,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
         <!-- No white flash before the game paints. -->
-        <item name="android:windowBackground">@color/gridzy_background</item>
+        <item name="android:windowBackground">@drawable/window_background</item>
     </style>
 
     <!-- Android 12+ shows the system splash (icon on color); older versions show @drawable/splash. -->

@@ -63,7 +63,8 @@ console.log(`Java:    ${javaHome}`);
 console.log(`SDK:     ${sdk}`);
 console.log(`Gradle:  ${gradleHome}\n`);
 
-const gradlew = isWindows ? 'gradlew.bat' : './gradlew';
+// Explicit relative path: some Windows setups don't search the current folder.
+const gradlew = isWindows ? '.\\gradlew.bat' : './gradlew';
 const result = spawnSync(gradlew, ['assembleDebug', '--console=plain'], {
   cwd: androidDir,
   stdio: 'inherit',
