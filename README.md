@@ -4,6 +4,11 @@ A relaxing block-puzzle game for the browser, Android and iOS. Drag pieces onto 
 
 See [prd.md](prd.md) for the full product plan.
 
+**Play online:** https://eshanajam00.github.io/ai-agents/
+
+Every push to `main` is checked (typecheck, lint, tests), built and published to GitHub Pages by
+[.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml).
+
 ## Requirements
 
 - [Node.js](https://nodejs.org) 22.12 or newer (the LTS version is recommended)

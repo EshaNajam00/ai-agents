@@ -11,3 +11,13 @@ coverage/
 # Android build outputs and local Gradle downloads
 apk/
 .gradle-home/
+*.apk
+*.aab
+build/
+.gradle/
+local.properties
+
+# Signing keys and secrets must never be committed
+*.jks
+*.keystore
+*.p12

@@ -36,6 +36,9 @@ function contentSecurityPolicy(): Plugin {
 }
 
 export default defineConfig({
+  // Relative asset paths, so the same build works at a sub-folder on GitHub Pages
+  // (https://<user>.github.io/<repo>/) and at the root inside the Android app.
+  base: './',
   plugins: [react(), contentSecurityPolicy()],
   build: {
     target: 'es2022',
